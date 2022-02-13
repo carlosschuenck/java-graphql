@@ -1,0 +1,81 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1644672752532-4
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_address
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: number
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: zip_code
+                  type: VARCHAR(255)
+            tableName: address
+  - changeSet:
+      id: 1644672752532-5
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: address_id
+                  type: VARCHAR(255)
+            tableName: user
+  - changeSet:
+      id: 1644672752532-6
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: user
+            constraintName: FK_USER_ON_ADDRESS
+            referencedColumnNames: id
+            referencedTableName: address
+  - changeSet:
+      id: 1644672752532-1
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: INT
+            columnName: age
+            tableName: user
+            validate: true
+  - changeSet:
+      id: 1644672752532-2
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - modifyDataType:
+            columnName: name
+            newDataType: VARCHAR(200)
+            tableName: user
+  - changeSet:
+      id: 1644672752532-3
+      author: Carlos Schuenck (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(200)
+            columnName: name
+            tableName: user
+            validate: true
+

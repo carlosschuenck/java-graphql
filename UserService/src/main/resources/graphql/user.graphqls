@@ -1,15 +1,21 @@
-type User {
+type UserDto {
     id: ID!
     name: String!
     age: Int!
-    teste: Float
+    address: AddressDto
+    orders: [OrderDto]
+}
+
+input UserInput {
+    name: String!
+    age: Int!
+    address: AddressInput
 }
 
 type Query {
-    users: [User]!
+    users: [UserDto]!
 }
 
 type Mutation {
-
-    newUser(name: String!, age: Int!): User!
+    newUser(user: UserInput): UserDto!
 }

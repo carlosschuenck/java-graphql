@@ -1,0 +1,28 @@
+query GET_ORDER {
+    orders {
+        id
+        description
+        userId
+    }
+}
+
+query GET_ORDER_BY_USER_ID {
+    ordersByUserId(userId: "3b449b72-94e1-4114-8d5b-26fbbbd6358a") {
+        id
+        description
+        userId
+    }
+}
+
+mutation ADD_ORDER {
+    newOrder(
+        order: {
+            description: "Order 1"
+            userId: "3b449b72-94e1-4114-8d5b-26fbbbd6358a"
+        }
+    ) {
+        id
+        description
+        userId
+    }
+}

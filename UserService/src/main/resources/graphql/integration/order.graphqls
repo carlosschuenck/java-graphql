@@ -1,0 +1,5 @@
+type OrderDto {
+    id: ID!
+    description: String!
+    userId: String!
+}

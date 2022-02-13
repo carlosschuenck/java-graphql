@@ -1,6 +1,9 @@
+server:
+  port: 8081
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/user-db
+    url: jdbc:mysql://localhost:3307/order-db
     username: admin
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,11 +13,9 @@ spring:
     change-log: db/changelog/db.changelog-master.yaml
 
 graphql:
-  client:
-    url: http://localhost:8081/graphql
   playground:
     tabs:
       - name: User
-        query: classpath:graphql/playground/user.graphql
+        query: classpath:graphql/playground/order.graphql
 
 

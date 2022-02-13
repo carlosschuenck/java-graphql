@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 1644588370277-1
-      author: Carlos.Schuenck
+      id: 1644771039278-1
+      author: Carlos Schuenck (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - createTable:
@@ -10,14 +10,18 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: pk_user
+                    primaryKeyName: pk_orders
                   name: id
                   type: VARCHAR(255)
               - column:
-                  name: name
+                  constraints:
+                    nullable: false
+                  name: description
                   type: VARCHAR(255)
               - column:
-                  name: age
-                  type: INT
-            tableName: user
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: VARCHAR(255)
+            tableName: orders
 

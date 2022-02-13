@@ -1,0 +1,20 @@
+type Order {
+    id: String!
+    description: String!
+    userId: String!
+}
+
+input OrderInput {
+    description: String!
+    userId: String!
+
+}
+
+type Query {
+    orders: [Order]!
+    ordersByUserId(userId: String!): [Order]!
+}
+
+type Mutation {
+    newOrder(order: OrderInput): Order!
+}
