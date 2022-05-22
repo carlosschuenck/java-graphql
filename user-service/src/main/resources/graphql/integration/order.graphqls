@@ -1,0 +1,5 @@
+type Order {
+    id: ID!
+    description: String!
+    userId: String!
+}

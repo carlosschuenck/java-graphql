@@ -1,0 +1,42 @@
+query GET_USER {
+    users {
+        id
+        name
+        age
+        address {
+            id
+            number
+            street
+            zipCode
+        }
+        orders {
+            id
+            description
+            userId
+        }
+    }
+}
+
+mutation ADD_USER {
+    newUser(
+        userInput: {
+            name: "Carlos"
+            age: 28
+            address: {
+                number: "3930"
+                street: "Avenida Joaquim de Oliveira"
+                zipCode: "24455-547"
+            }
+        }
+    ) {
+        id
+        name
+        age
+        address {
+            id
+            number
+            street
+            zipCode
+        }
+    }
+}
