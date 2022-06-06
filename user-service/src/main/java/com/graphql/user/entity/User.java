@@ -1,7 +1,9 @@
 package com.graphql.user.entity;
 
 import lombok.*;
+
 import static lombok.EqualsAndHashCode.Include;
+
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 

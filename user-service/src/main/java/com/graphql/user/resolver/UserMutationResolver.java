@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class UserMutationResolver implements GraphQLMutationResolver {
     private final UserService service;
 
-    public UserDTO newUser(UserInputDTO userInput){
+    public UserDTO newUser(UserInputDTO userInput) {
         return service.save(userInput);
     }
 }

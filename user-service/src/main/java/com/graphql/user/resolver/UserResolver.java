@@ -27,14 +27,13 @@ public class UserResolver implements GraphQLResolver<UserDTO> {
     private final AddressService addressService;
     private final OrderService orderService;
 
-    public DataFetcherResult<List<OrderDTO>> orders(UserDTO user){
-        List<OrderDTO> orders = orderService.getByUserId(user.getId());
-        return new DataFetcherResult<>(orders, of());
+    public DataFetcherResult<List<OrderDTO>> orders(UserDTO user) {
+        return new DataFetcherResult<>(orderService.getByUserId(user.getId()), of());
     }
 
-    public DataFetcherResult<AddressDTO> address(UserDTO user){
+    public DataFetcherResult<AddressDTO> address(UserDTO user) {
         AddressDTO address = addressService.findByUserId(fromString(user.getId()));
-        if(isNull(address))
+        if (isNull(address))
             return new DataFetcherResult<>(null, of(new GenericGraphQLError(MSG_NO_ADDRESS)));
         return new DataFetcherResult<>(address, of());
     }

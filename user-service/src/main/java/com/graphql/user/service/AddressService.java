@@ -19,14 +19,14 @@ public class AddressService {
     private final AddressRepository repository;
     private final ModelMapper mapper;
 
-    public void save(AddressInputDTO addressInput, UUID userId){
+    public void save(AddressInputDTO addressInput, UUID userId) {
         Address address = mapper.map(addressInput, Address.class).setUser(new User(userId));
         repository.save(address);
     }
 
     public AddressDTO findByUserId(UUID id) {
-        return  repository.findByUserId(id)
-                          .map(address -> mapper.map(address, AddressDTO.class))
-                          .orElse(null);
+        return repository.findByUserId(id)
+                .map(address -> mapper.map(address, AddressDTO.class))
+                .orElse(null);
     }
 }

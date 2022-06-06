@@ -17,8 +17,8 @@ public class UserService {
     private final ModelMapper mapper;
 
     @Transactional
-    public UserDTO save(UserInputDTO userInput){
-        var user =  mapper.map(userInput, User.class);
+    public UserDTO save(UserInputDTO userInput) {
+        var user = mapper.map(userInput, User.class);
         var newUser = repository.save(user);
         addressService.save(userInput.getAddress(), newUser.getId());
         return mapper.map(newUser, UserDTO.class);

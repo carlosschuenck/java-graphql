@@ -5,7 +5,7 @@ import graphql.GraphQLException;
 import java.io.IOException;
 
 public class GraphqlSchemaReaderUtil {
-    
+
     public static String getSchemaFromFileName(final String filename) {
         try {
             return new String(GraphqlSchemaReaderUtil.class.getClassLoader()

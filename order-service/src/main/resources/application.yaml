@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: order-service
   datasource:
     url: jdbc:mysql://localhost:3307/order-db
     username: admin
@@ -18,4 +20,9 @@ graphql:
       - name: User
         query: classpath:graphql/playground/order.graphql
 
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true

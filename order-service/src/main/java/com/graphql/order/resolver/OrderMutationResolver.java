@@ -15,7 +15,7 @@ public class OrderMutationResolver implements GraphQLMutationResolver {
 
     private final OrderRepository repository;
 
-    public Order newOrder(OrderInput input){
+    public Order newOrder(OrderInput input) {
         return repository.save(Order.builder()
                 .id(UUID.randomUUID().toString())
                 .description(input.getDescription())

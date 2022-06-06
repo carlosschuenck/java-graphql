@@ -12,7 +12,6 @@ import java.util.UUID;
 
 import static lombok.EqualsAndHashCode.Include;
 
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -32,6 +31,6 @@ public class Address {
     @Column(name = "zip_code")
     private String zipCode;
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 }

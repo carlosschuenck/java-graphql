@@ -14,11 +14,11 @@ public class OrderQueryResolver implements GraphQLQueryResolver {
 
     private final OrderRepository repository;
 
-    public List<Order> orders(){
+    public List<Order> orders() {
         return repository.findAll();
     }
 
-    public List<Order> ordersByUserId(String userId){
+    public List<Order> ordersByUserId(String userId) {
         return repository.findByUserId(userId);
     }
 }
