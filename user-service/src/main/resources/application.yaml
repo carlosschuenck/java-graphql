@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 0
 
 spring:
   application:
@@ -16,16 +16,17 @@ spring:
 
 graphql:
   client:
-    url: http://order-service/graphql
+    url: http://localhost:8080/order-service/graphql
   playground:
     tabs:
       - name: User
         query: classpath:graphql/playground/user.graphql
 
 eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
+      defaultZone: http://localhost:9000/eureka/
 
