@@ -1,0 +1,12 @@
+FROM openjdk:11 as build
+VOLUME /tmp
+WORKDIR /workspace/app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN ./mvnw install -DskipTests
+
+FROM openjdk:11
+COPY --from=build /workspace/app/target/*.jar /
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${ENV}", "/user-service.jar"]

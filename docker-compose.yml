@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  service-discovery:
+    image: service-discovery
+    build:
+      context: ./service-discovery
+      dockerfile: Dockerfile
+    container_name: service-discovery
+    restart: always
+    ports:
+      - '9000:9000'
+
+  api-gateway:
+    image: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    environment:
+      - ENV=docker
+    container_name: api-gateway
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - service-discovery
+
+networks:
+  default:
+    name: java-graphql-common-network

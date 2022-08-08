@@ -15,5 +15,24 @@ services:
       - '3307'
     volumes:
       - order-db:/var/lib/mysql
+
+  order-service:
+    image: order-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ENV=docker
+    restart: always
+    depends_on:
+      - order-db
+    deploy:
+      replicas: 2
+
 volumes:
   order-db:
+
+networks:
+  default:
+    external:
+      name: java-graphql-common-network

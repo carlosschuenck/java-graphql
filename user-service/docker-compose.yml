@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 services:
   user-db:
     image: mysql:5.7
@@ -15,5 +15,24 @@ services:
       - '3306'
     volumes:
       - user-db:/var/lib/mysql
+
+  user-service:
+    image: user-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ENV=docker
+    restart: always
+    depends_on:
+      - user-db
+    deploy:
+      replicas: 2
+
 volumes:
   user-db:
+
+networks:
+  default:
+    external:
+      name: java-graphql-common-network
