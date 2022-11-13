@@ -7,8 +7,10 @@ import com.graphql.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -23,4 +25,12 @@ public class UserService {
         addressService.save(userInput.getAddress(), newUser.getId());
         return mapper.map(newUser, UserDTO.class);
     }
+
+    @Transactional
+    public boolean delete(UUID id) {
+        addressService.deleteByUserId(id);
+        repository.deleteById(id);
+        return true;
+    }
+
 }

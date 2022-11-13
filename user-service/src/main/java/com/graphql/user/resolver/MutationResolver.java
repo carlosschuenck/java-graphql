@@ -7,6 +7,8 @@ import com.graphql.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @Component
 public class MutationResolver implements GraphQLMutationResolver {
@@ -14,5 +16,9 @@ public class MutationResolver implements GraphQLMutationResolver {
 
     public UserDTO newUser(UserInputDTO userInput) {
         return service.save(userInput);
+    }
+
+    public boolean deleteUser(UUID id) {
+        return service.delete(id);
     }
 }

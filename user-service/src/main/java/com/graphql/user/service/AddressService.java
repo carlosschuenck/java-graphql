@@ -29,4 +29,8 @@ public class AddressService {
                 .map(address -> mapper.map(address, AddressDTO.class))
                 .orElse(null);
     }
+
+    public void deleteByUserId(UUID id) {
+        repository.deleteByUserId(id);
+    }
 }

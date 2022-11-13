@@ -1,15 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
-import {ApolloClient, gql, InMemoryCache, useQuery} from "@apollo/client";
-import {Box, Button, createTheme, Grid, Paper, styled, ThemeProvider} from "@mui/material";
+import {gql, useMutation, useQuery} from "@apollo/client";
 
-
-const client = new ApolloClient({
-    uri: 'http://localhost:8080/user-service/graphql',
-    cache: new InMemoryCache(),
-});
-
+import {
+    AppBar,
+    Avatar, Button,
+    Container,
+    createTheme, Dialog, Divider,
+    Grid,
+    IconButton,
+    Paper, Slide,
+    styled, Typography,
+    Toolbar
+} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import { TransitionProps } from '@mui/material/transitions';
+import CloseIcon from "@mui/icons-material/Close";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 
 interface User {
     id: string;
@@ -17,89 +28,148 @@ interface User {
     age: number;
 }
 
-const GET_ROCKET_INVENTORY = gql`
-  query GetUser {
-    users {
-        id
-        name
-        age
-        address {
+interface UserData {
+    users: User[];
+}
+
+const GET_USER = gql`
+    query GetUser {
+        users {
             id
-            number
-            street
-            zipCode
-        }
-        orders {
-            id
-            description
-            userId
+            name
+            age
+            address {
+                id
+                number
+                street
+                zipCode
+            }
+            orders {
+                id
+                description
+                userId
+            }
         }
     }
-  }
 `;
 
+const DELETE_USER = gql`
+    mutation DeleteUser($id: ID!) {
+        deleteUser(id: $id)
+    }
+`;
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function App() {
+    const [deleteUser] = useMutation(DELETE_USER);
+    const { data, refetch } = useQuery<UserData>(GET_USER);
+    const [open, setOpen] = React.useState(false);
 
-  function Testing(){
-      const { loading, data } = useQuery(GET_ROCKET_INVENTORY);
-      console.log("use query",data)
-
-      client.query({
-          query: gql`
-              query GetUser {
-                  users {
-                      id
-                      name
-                      age
-                      address {
-                          id
-                          number
-                          street
-                          zipCode
-                      }
-                      orders {
-                          id
-                          description
-                          userId
-                      }
-                  }
-              }
-          `
-      }).then(result => console.log("RESULT", result))
-      .catch(err => console.error("erro", err))
-  }
-
-    useEffect(() => {
-        Testing();
-    }, []);
+    const deleteUserAndUpdateList = async ({ id }: User) => {
+        await deleteUser({variables: { id }});
+        await refetch();
+    }
 
 
-  return (
-    <div className="App">
-        <h1>OLÁ APP</h1>
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <ThemeProvider  theme={lightTheme}>
-                    <Box
-                        sx={{
-                            p: 2,
-                            bgcolor: 'background.default',
-                            display: 'grid',
-                            gridTemplateColumns: { md: '1fr 1fr' },
-                            gap: 2,
-                        }}
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (e: any) => {
+        console.log({e})
+        setOpen(false);
+    };
+
+
+    return (
+
+        <Container maxWidth="xl">
+            <Grid container justifyContent="center" alignItems="center">
+                <Grid item>
+                    <Typography variant="h2"  align="center" gutterBottom>Users</Typography>
+                </Grid>
+                <Grid item>
+                    <IconButton aria-label="add"
+                                onClick={handleClickOpen}>
+                        <AddBoxOutlinedIcon fontSize={"large"}/>
+                    </IconButton>
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
                     >
-                        {[0, 1, 2, 3, 4, 6, 8, 12, 16, 24].map((elevation) => (
-                            <Item key={elevation} elevation={elevation}>
-                                {`elevation=${elevation}`}
-                            </Item>
-                        ))}
-                    </Box>
-                </ThemeProvider>
+                        <AppBar sx={{ position: 'relative' }}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={handleClose}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                                <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                    NEW USER FORM
+                                </Typography>
+                                <Button autoFocus color="inherit"  variant="outlined" onClick={handleClose}  startIcon={<SaveAsIcon />}>
+                                    Save
+                                </Button>
+                            </Toolbar>
+                        </AppBar>
+                        <h1>NAYARA SAFADA</h1>
+                    </Dialog>
+                </Grid>
             </Grid>
-        </Grid>
-        <Button variant="contained"> Olá Mundo</Button>
-    </div>
+
+
+            <Divider />
+            <br />
+            <Grid container spacing={4} justifyContent="flex-start">
+                {data && data.users.map((user) => (
+                    <Grid item xs={2} key={user.id}>
+                        <Paper elevation={4}>
+                            <Grid container
+                                  justifyContent="space-evenly"
+                                  padding={2}
+                                  flexWrap="wrap"
+                                  rowSpacing={1.5}>
+                                <Grid xs={12} item maxHeight={300} maxWidth={300}>
+                                    <Avatar src="/images/man-avatar.png" sx={{ width: '100%', height: '100%' }}/>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Typography variant="h6"  align="center">{user.name}</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <IconButton aria-label="delete">
+                                        <ListAltIcon fontSize={"large"}/>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item>
+                                    <IconButton aria-label="edit">
+                                        <EditIcon fontSize={"large"}/>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item>
+                                    <IconButton aria-label="delete" onClick={ async () => { await deleteUserAndUpdateList(user); }}>
+                                        <DeleteIcon fontSize={"large"}/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
   );
 }
 

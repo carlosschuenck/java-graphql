@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface AddressRepository extends JpaRepository<Address, String> {
     Optional<AddressProjection> findByUserId(UUID id);
+    void deleteByUserId(UUID id);
 }
